@@ -147,7 +147,59 @@
 }
 \makeatother
 \usepackage{pgfplots}
+\usepackage{pgfplotstable}
 \pgfplotsset{compat = newest}
+\pgfplotsset{
+  every axis legend/.append style =
+    {
+      % Change the text alignment so the end of the text (rather than the
+      % start) lines up.
+      cells = { anchor = east },
+      % The standard pgfplots settings use a box around legends:
+      % I prefer without this.
+      draw  = none
+    }
+}
+\pgfplotsset{
+  myplot/.style =
+    {
+      % Using a cycle list just altering colour means that there are no
+      % marks: that is normal for this sort of plot.
+      cycle list name = color list , 
+      % Ensure that the x-axis values always have the same number of 
+      % decimal places, to avoid e.g. "1" but "1.2".
+      every x tick label/.append style  =
+        { 
+          /pgf/number format/.cd ,
+           precision = 1 , 
+           fixed         ,
+           zerofill
+        },
+      % The labels apply to all plots of this type.
+      % Notice that in this case the zero is ferrocenium/ferrocene, but that
+      % will depend on the experiment.
+      xlabel = \(V_{CC}~(V)\),
+      % The normalised y-axis has something of a nightmare label!
+      ylabel = \(V_{ref}~(V)\),
+    },
+}
+\makeatletter
+\pgfplotsset{ % Tufte-like plot
+  tufte axes/.style =
+    {
+      after end axis/.code =
+        {
+          \draw ({rel axis cs:0,0} -| {axis cs:\pgfplots@data@xmin,0})
+            -- ({rel axis cs:0,0}  -| {axis cs:\pgfplots@data@xmax,0});
+          \draw ({rel axis cs:0,0} |- {axis cs:0,\pgfplots@data@ymin})
+            -- ({rel axis cs:0,0}  |-{axis cs:0,\pgfplots@data@ymax});
+        },
+      axis line style = {draw = none},
+      tick align      = outside,
+      tick pos        = left
+    }
+}
+\makeatother
 % \usepackage{pgfplots}
 % \pgfplotsset{compat = newest}
 
@@ -610,7 +662,7 @@ The design in this paper, originally presented at the 1998 Symposium on VLSI Cir
 
 \begin{equation}
     V_{ref} = V_{f_1} + \frac{R_2}{R_3}V_T\ln\Biggl(\frac{R_2}{R_1}N\Biggr)
-    \label{eq:conv_vout}
+\label{eq:conv_vout}
 \end{equation}
 
 \noindent which typically has a lower limit of \qty{1.25}{\V}~\cite{Razavi2016}. 
@@ -619,7 +671,7 @@ The presented design remedies this by placing \(R_1\) and \(R_2\) in parallel wi
 
 \begin{equation}
     V_{ref} = \frac{R_4}{R_2}V_{f_1} + \frac{R_4}{R_3}V_T \ln{(N)}
-    \label{eq:banba_vout}
+\label{eq:banba_vout}
 \end{equation}
 
 \noindent Assuming that the resistor and diode parameters are the same in both conventional and proposed designs, the output voltage is reduced by a factor of \(\sfrac{R2}{R4}\). With \(M1\), \(M2\), and \(M3\) in saturation, \(VCC\) can be theoretically lowered to \(V_f\) as long as \(V_{ref}\) is below \(V_f\).
@@ -654,8 +706,7 @@ The presented design remedies this by placing \(R_1\) and \(R_2\) in parallel wi
     \draw (1.5,-1.5) -- (6.25,-1.5) node[ocirc](vref){} node[right]{$V_{ref}$};
 \end{circuitikz}
 \end{scaletikzpicturetowidth}
-\label{fig:conv_bg}
-\caption{Conventional bandgap reference circuit schematic used for comparison. Redrawn from~\cite{Banba1999}.}
+\caption{Conventional bandgap reference circuit schematic used for comparison. Redrawn from~\cite{Banba1999}.}\label{fig:conv_bg}
 \end{figure}
 \begin{figure}[!t]
 \centering
@@ -696,8 +747,7 @@ The presented design remedies this by placing \(R_1\) and \(R_2\) in parallel wi
     \draw (10,-1) node[ocirc] (vref) {} node[right] {$V_{ref}$} -* (9,-1);
 \end{circuitikz}
 \end{scaletikzpicturetowidth}
-\label{fig:prop_bg}
-\caption{Proposed bandgap reference circuit schematic. Redrawn from~\cite{Banba1999}.}
+\caption{Proposed bandgap reference circuit schematic. Redrawn from~\cite{Banba1999}.}\label{fig:prop_bg}
 \end{figure}
 
 
@@ -714,7 +764,41 @@ The bandgap circuit topology proposed by Banba et al. has some undoubted benefit
 
 While the circuit proposed by Banba et al. represents a significant step forward, the methods used to verify the performance in simulation and hardware leave a lot to be desired in solidifying their argument for this circuit's benefits. Firstly, the simulation results presented for low threshold devices seem to plot a truly simulation version of the proposed circuit against a theoretical model for the conventional circuit, evidenced by the perfect shape of the plot. This is fine for illustrating the general point that the new design has a much lower turn-on voltage, but the disparity between the curves is notable.
 
-The choice of process used to verify the circuit operation in hardware leaves a lot to be desired. The gigantic disparity in the threshold devices of the simulated process and fabricated one prevented the circuit from functioning anywhere close to its stated performance in practice, with a lower \(V_{CC}\) limit of \qty{2.1}{\V} -- worse than a conventional bandgap in a traditional process. The results from the hardware evaluation actually start at a \(V_{CC} = \qty{1}{\V}\), while the paper is titled for operation sub-\qty{1}{\V}. The authors attempted to circumvent the threshold voltage issue by using native NMOS devices on the input to the op-amp, but this was not reflected in the schematic shown in their paper, nor did it appear to assist in bringing down the \(V_{CC}\) requirement. The authors also did not report on the PSRR of this circuit in comparison with the conventional design, which is an important metric to consider when designing a reference voltage that should be free from dependence on power supply noise. In reporting the distributions from the fabricated conventional and proposed circuits, the conventional design data was taken across 34 points, whereas the proposed design was reported using only 23 points.
+The choice of process used to verify the circuit operation in hardware leaves a lot to be desired. The gigantic disparity in the threshold devices of the simulated process and fabricated one prevented the circuit from functioning anywhere close to its stated performance in practice, with a lower \(V_{CC}\) limit of \qty{2.1}{\V} -- worse than a conventional bandgap in a traditional process. The results from the hardware evaluation actually start at a \(V_{CC} = \qty{1}{\V}\), while the paper is titled for operation sub-\qty{1}{\V}. Simulating both circuits in a process with low-threshold devices in a \qty{45}{\nm} process yields results that much better reflect the stated performance of the device, as shown in \cref{fig:gpdk_bandgap_results}. However, similar performance was also seen with the conventional circuit at low voltages, with the proposed circuit holding steady at higher supply voltages. The schematics constructed for the conventional and proposed designs are shown in \cref{fig:cadence_conv} and \cref{fig:cadence_prop}, respectively.
+
+The authors attempted to circumvent the threshold voltage issue by using native NMOS devices on the input to the op-amp, but this was not reflected in the schematic shown in their paper, nor did it appear to assist in bringing down the \(V_{CC}\) requirement. The authors also did not report on the PSRR of this circuit in comparison with the conventional design, which is an important metric to consider when designing a reference voltage that should be free from dependence on power supply noise. In reporting the distributions from the fabricated conventional and proposed circuits, the conventional design data was taken across 34 points, whereas the proposed design was reported using only 23 points.
+
+\begin{figure}[!t]
+    \centering
+    \pgfplotstableread[col sep=comma,]{data/bandgap.csv}\datatable
+    \begin{tikzpicture}
+        \begin{axis}[
+            myplot,
+            tufte axes,
+            every axis legend/.append style = {at={(0.9,0.5)}}]
+
+            \addplot table [x expr = \thisrowno{0},
+                    y expr = \thisrowno{3}]{\datatable};
+            \addlegendentry{Proposed}
+            \addplot table [x expr = \thisrowno{0},
+                    y expr = \thisrowno{1}]{\datatable};
+            \addlegendentry{Conventional}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Results from simulating the two circuits in~\cite{Banba1999} in the C\=adence gpdk045\_v5.0 with \qty{1}{\V} low-threshold devices -- \(V_{th_n} = \qty{0.28}{\V}\), \(V_{th_p} = \qty{-0.34}{\V}\). Operation below \qty{1}{\V} \(V_{CC}\) is easily demonstrated.}\label{fig:gpdk_bandgap_results}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{images/bg_conv.eps}
+    \caption{Schematic of conventional bandgap in C\=adence Virtuoso.} \label{fig:cadence_conv}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{images/bg_prop.eps}
+    \caption{Schematic of proposed bandgap in C\=adence Virtuoso.} \label{fig:cadence_prop} 
+\end{figure}
 
 While threshold parameters for the process used were given, it may have also been useful to indicate certain parameters for the vertical BJTs used as quasi-diodes for the process used, since typical doping profiles and junction areas will have a fundamental impact on the bandgap performance. Likewise, since the resistors used in this design are fabricated from the n-type diffusion layer, they will have a temperature coefficient that is interdependent with the bipolar and MOS devices of the process, which is typically a known value, and could have been stated in some way.
 
