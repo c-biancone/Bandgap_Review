@@ -1,0 +1,99 @@
+% Original: Copyright 2007 by Till Tantau
+% Modified: Joe Bullard (2015)
+%
+% This is just the PaloAlto theme with my (Joe) RIT color scheme, a change
+% in the inner theme (to 'circles'), and a command for logo inclusion.
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+% See the file doc/licenses/LICENSE for more details.
+
+
+\DeclareOptionBeamer{hideothersubsections}{\PassOptionsToPackage{hideothersubsections=#1}{beamerouterthemesidebar}}
+\DeclareOptionBeamer{hideallsubsections}{\PassOptionsToPackage{hideallsubsections=#1}{beamerouterthemesidebar}}
+
+\DeclareOptionBeamer{width}{\PassOptionsToPackage{width=#1}{beamerouterthemesidebar}}
+\DeclareOptionBeamer{left}{\PassOptionsToPackage{left}{beamerouterthemesidebar}}
+\DeclareOptionBeamer{right}{\PassOptionsToPackage{right}{beamerouterthemesidebar}}
+\ProcessOptionsBeamer
+
+\mode<presentation>
+
+\useoutertheme{sidebar}
+\useinnertheme{circles}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The color code below is copied from 'beamercolorthemerit.sty'
+% so that this file can be used stand-alone.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Official RIT colors from website
+\definecolor{rit-orange}{HTML}{F36E21}
+\definecolor{rit-brown}{HTML}{513127}
+
+\setbeamercolor{structure}{fg=rit-orange,bg=rit-brown}
+
+%% General colors
+\setbeamercolor*{normal text}{use=structure,fg=structure.bg,bg=white}
+\setbeamercolor*{alerted text}{use=structure,fg=structure.fg,bg=white}
+\setbeamercolor*{example text}{use=structure,fg=structure.fg,bg=white}
+\setbeamercolor*{title}{use=structure,fg=structure.fg}
+\setbeamercolor*{author}{use=structure,fg=structure.bg}
+\setbeamercolor*{institute}{use=structure,fg=structure.bg}
+\setbeamercolor*{date}{use=structure,fg=structure.bg}
+\setbeamercolor*{palette primary}{use=structure,fg=white,bg=structure.fg}
+\setbeamercolor*{palette secondary}{use=structure,fg=white,bg=structure.bg}
+\setbeamercolor*{palette tertiary}{use=structure,fg=white,bg=structure.fg}
+\setbeamercolor*{palette quaternary}{use=structure,fg=white}
+\setbeamercolor*{logo}{bg=white}
+
+%% For themes using the 'sidebar' outer theme (e.g. PaloAlto)
+\setbeamercolor*{sidebar}{parent=palette secondary}
+\setbeamercolor*{title in sidebar}{use=structure,fg=white}
+\setbeamercolor*{author in sidebar}{use=structure,fg=white}
+\setbeamercolor*{section in sidebar}{use=structure,fg=structure.fg}
+\setbeamercolor*{section in sidebar shaded}{use=structure,fg=structure.fg!75}
+\setbeamercolor*{subsection in sidebar}{use=structure,fg=white}
+\setbeamercolor*{subsection in sidebar shaded}{use=structure,fg=structure.fg!75}
+
+\setbeamercolor*{frametitle}{parent=palette primary}
+\setbeamerfont{block title}{size={}}
+
+\AtBeginDocument{\fontsize{10}{14}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Convenient commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Add RIT logo, assuming they downloaded the logo
+\newcommand{\useritlogo}{\logo{\includegraphics[width=1.25cm]{rit_tiger_color_small}}}
+
+%% Colors for highlighting
+\newcommand<>{\orange}[1]{{\color#2{rit-orange}#1}}
+\newcommand<>{\borange}[1]{\orange#2{\textbf#2{#1}}}
+\newcommand<>{\eorange}[1]{\orange#2{\emph#2{#1}}}
+\newcommand<>{\brown}[1]{{\color#2{rit-brown}#1}}
+\newcommand<>{\bbrown}[1]{\brown#2{\textbf#2{#1}}}
+\newcommand<>{\ebrown}[1]{\brown#2{\emph#2{#1}}}
+
+
+%%
+% This is a hacky solution to making both the section AND subsection
+% highlight on each slide. This code was taken from a StackExchange answer by
+% user 'diabonas', available at the following link
+%
+% http://tex.stackexchange.com/questions/64679/highlight-both-section-and-subsection-in-the-outline-on-the-side-of-a-beamer-sli
+%% 
+\usepackage{etoolbox}
+% \makeatletter
+% \patchcmd{\insertverticalnavigation}%
+% {\ifx\beamer@nav@css\beamer@hidetext{\usebeamertemplate{section in sidebar}}\else{\usebeamertemplate{section in sidebar shaded}}\fi}%
+% {{\usebeamertemplate{section in sidebar}}}{}{}
+% \makeatother
+
+\mode
+<all>

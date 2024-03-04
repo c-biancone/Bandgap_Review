@@ -1,0 +1,659 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{semidevsymbRommel}[2014/06/19]
+
+\newcommand{\semiequThermEquN}{
+	n_0=n_ie^{\frac{E_F-E_{Fi}}{kT}}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%Define Symbol Names
+\newcommand{\angstrom}{\mbox{\normalfont\AA} }
+%
+\newcommand{\micron}{$\mu$m}
+%
+\newcommand{\EF}{$E_f$}
+\newcommand{\EFEq}{E_f}
+%
+\newcommand{\EC}{$E_c$}
+\newcommand{\ECEq}{E_c}
+%
+\newcommand{\EI}{$E_i$}
+\newcommand{\EIEq}{E_i}
+
+%
+\newcommand{\EV}{$E_v$}
+\newcommand{\EVEq}{E_Eq}
+%
+\newcommand{\NA}{$N_A$}
+\newcommand{\NAEq}{N_A}
+%
+\newcommand{\ND}{$N_D$}
+\newcommand{\NDEq}{N_D}
+%
+\newcommand{\VaText}{$V_a$}
+\newcommand{\VaEq}{V_a}
+%
+\newcommand{\EField}{$\mathcal{E}$}
+\newcommand{\EfieldEq}{\mathcal{E}}
+%
+\newcommand{\niEq}{n_i}
+\newcommand{\niValEq}{10^{10}{\mbox{ cm$^{ - 3}$}}}
+\newcommand{\tnText}{$\tau_n$ }
+\newcommand{\tpText}{$\tau_p$ }
+\newcommand{\mobilitypText}{$\mu_p$}
+\newcommand{\mobilitynText}{$\mu_n$}
+\newcommand{\mobilitypEq}{\mu_p}
+\newcommand{\mobilitynEq}{\mu_n}
+
+\newcommand{\cmvs}{cm$^2/V\cdot s$  }
+\newcommand{\BoltzeV}{$k = 8.617 \times {10^{ - 5}}$ C}
+\newcommand{\BoltzJ}{$k = 1.38066 \times {10^{ - 23}}$ C}
+\newcommand{\q}{$q = 1.602 \times {10^{ - 19}}$ C}
+\newcommand{\qEq}{1.602 \times {10^{ - 19}}\mbox{ C}}
+\newcommand{\perimittivityfreespace}{$\epsilon$$_{0}$=8.85 \times {10^{ - 14}}$ F/cm}
+\newcommand{\epsEq}{8.85 \times {10^{ - 14}}\mbox{  F/cm}}
+\newcommand{\epsSi}{11.8}
+\newcommand{\epsoxide}{3.9}
+\newcommand{\kTRT}{0.0259 \mbox{ eV}}
+\newcommand{\kTqRT}{0.0259 \mbox{ V}}
+\newcommand{\Planck}{$h = 6.62617 \times {10^{ - 34}}$ J$\cdot$s}
+\newcommand{\restmass}{${m_0} = 9.1095 \times {10^{ - 31}}kg$}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%Define Equations
+\newcommand{\FermiProb}{
+\begin{equation}
+\label{Eq:FermiFunction}
+f(E) = \frac{1}{{1 + {e^{\left( {E - {E_F}} \right)/kT}}}}
+\end{equation}
+}
+\newcommand{\HoleProb}
+{
+\begin{equation}
+\label{Eq:HoleProb}
+1-f(E)= 1 - \frac{1}{{1 + {e^{\left( {E - {E_F}} \right)/kT}}}}
+\end{equation}
+}
+\newcommand{\ConductionDensityofStates}
+{
+\begin{equation}
+\label{Eq:Nc}
+{N_c}=2\left[  {{\frac{{2\pi {m_n}kT}}{{{h^2}}}} } \right]  ^{3/2}
+\end{equation}
+}
+\newcommand{\ValenceDensityofStates}
+{
+\begin{equation}
+\label{Eq:Nv}
+{N_v}=2\left[  {{\frac{{2\pi {m_p}kT}}{{{h^2}}}} } \right]  ^{3/2}
+\end{equation}
+}
+\newcommand{\nDensityofStates}
+{
+\begin{equation}
+\label{Eq:nNc}
+n = {N_c}{e^{ - ({E_c} - {E_f})/kT}}
+\end{equation}
+}
+\newcommand{\pDensityofStates}
+{
+\begin{equation}
+\label{Eq:pNc}
+p = {N_v}{e^{ - ({E_f} - {E_v})/kT}}
+\end{equation}
+}
+\newcommand{\nni}
+{
+\begin{equation}
+\label{Eq:nni}
+n = {n_i}{e^{\left( {{E_F} - {E_i}} \right)/kT}} \equiv {n_i}{e^{ - {\phi _B}/kT}}
+\end{equation}
+}
+\newcommand{\pni}
+{
+\begin{equation}
+\label{Eq:pni}
+p = {n_i}{e^{\left( {{E_i} - {E_F}} \right)/kT}} \equiv {n_i}{e^{{\phi _B}/kT}}
+\end{equation}
+}
+\newcommand{\EiminEf}
+{
+\begin{equation}
+\label{Eq:EiminEf}
+E_i-E_f=kT\ln\left( \frac{p}{n_i}\right)
+\end{equation}
+}
+\newcommand{\EfminEi}
+{
+\begin{equation}
+\label{Eq:EfminEi}
+E_f-E_i=kT\ln\left( \frac{n}{n_i}\right)
+\end{equation}
+}
+\newcommand{\massaction}
+{
+\begin{equation}
+\label{Eq:MassAction}
+np = {N_c}{N_v}e^{- E_g/kT} = n_i^2
+\end{equation}
+}
+\newcommand{\niFormal}
+{
+\begin{equation}
+\label{Eq:niFormal}
+n_i=\sqrt{N_c N_v}e^{-E_g/2kT}
+\end{equation}
+}
+\newcommand{\mobilityEfield}
+{
+\begin{subequations}
+\begin{equation}
+\label{Eq:mobilityEfieldn}
+v_n=\mu_n\mathcal{E}
+\end{equation}
+\begin{equation}
+\label{Eq:mobilityEfieldp}
+v_p=\mu_p\mathcal{E}
+\end{equation}
+\end{subequations}
+}
+
+\newcommand{\chargedensity}
+{
+\begin{equation}
+\label{Eq:chargedensity}
+\rho = q\left( {p - n + {N_D} - {N_A}} \right)
+\end{equation}
+}
+\newcommand{\currentdensity}
+{
+\begin{equation}
+\label{Eq:currentdensity}
+J = \frac{I}{Area}
+\end{equation}
+}
+\newcommand{\conductivity}
+{
+\begin{subequations}
+\begin{equation}
+\label{Eq:conductivitytotal}
+\sigma  = q\left( {\mu _n}n + {\mu _p}p \right)
+\end{equation}
+\begin{equation}
+\label{Eq:conductivityn}
+\sigma_n  = q\left( {\mu _n}n \right)
+\end{equation}
+\begin{equation}
+\label{Eq:conductivityp}
+\sigma_p = q\left( {\mu _p}p \right)
+\end{equation}
+\end{subequations}
+}
+\newcommand{\resistivity}
+{
+\begin{equation}
+\label{Eq:resistivity}
+\rho=\frac{1}{\sigma}
+\end{equation}
+}
+\newcommand{\resistance}
+{
+\label{Eq:resistance}
+\begin{equation}
+R=\rho\frac{L}{Wt}
+\end{equation}
+}
+\newcommand{\driftcurrent}
+{
+\begin{subequations}
+\begin{equation}
+\label{Eq:driftcurrent}
+{J_{drift}}=\sigma \mathcal{E}=\left(\sigma_n+\sigma_p\right)\mathcal{E}
+\end{equation}
+\begin{equation}
+\label{Eq:driftcurrentn}
+{J_{drift_n}}=\sigma_n \mathcal{E}
+\end{equation}
+\begin{equation}
+\label{Eq:driftcurrentp}
+{J_{drift_p}}=\sigma_p \mathcal{E}
+\end{equation}
+\end{subequations}
+}
+\newcommand{\Einstein}
+{
+\begin{subequations}
+\begin{equation}
+\label{Eq:Einsteinelec}
+\frac{D_n}{\mu _n} = \frac{kT}{q}
+\end{equation}
+\begin{equation}
+\label{Eq:Einsteinhole}
+\frac{D_p}{\mu _p} = \frac{kT}{q}
+\end{equation}
+\end{subequations}
+}
+\newcommand{\diffusionlength}
+{
+\begin{subequations}
+\begin{equation}
+\label{Eq:Ln}
+L_n \equiv \sqrt {{D_n}{\tau _n}} 
+\end{equation}
+\begin{equation}
+\label{Eq:Lp}
+L_p = \sqrt {{D_p}{\tau _p}} 
+\end{equation}
+\end{subequations}
+}
+\newcommand{\diffusioncurrent}
+{
+\begin{subequations}
+\begin{equation}
+\label{Eq:diffusion}
+J_{Diffusion}=qD_n \frac{dn}{dx}-qD_p \frac{dp}{dx}
+\end{equation}
+\begin{equation}
+\label{Eq:elecdiffusion}
+{J_{Diffusion_n}} =  - \left( { - q} \right){D_n}\frac{dn}{dx} = q{D_n}\frac{dn}{dx}
+\end{equation}
+\begin{equation}
+\label{Eq:holediffusion}
+{J_{Diffusion_p}} =  - \left( { + q} \right){D_p}\frac{dp}{dx} =  - q{D_p}\frac{dp}{dx}
+\end{equation}
+\end{subequations}
+}
+\newcommand{\Poisson}
+{
+\begin{subequations}
+\begin{equation}
+\label{Eq:PoissonGradient}
+ - {\nabla ^2} \cdot\vec{ V} = \nabla  \cdot \vec{\mathcal{E} }= \frac{\rho }{\varepsilon _S\varepsilon _0}
+\end{equation}
+\begin{equation}
+\label{Eq:OneDPoisson}
+\frac{d^2V}{dx^2}=-\frac{d\mathcal{E}}{dx}=-\frac{\rho}{\varepsilon_s\varepsilon_0}
+\end{equation}
+\end{subequations}
+}
+\newcommand{\DeplApprox}
+{
+\begin{equation}
+\label{Eq:DeplApprox}
+\rho  =  \begin{cases}
+- qN_A^ - &-x_p \le x \le 0\\
+qN_D^ + &0 \le x \le x_n\\
+0&{\mbox{otherwise}}
+\end{cases} 
+\end{equation}
+}
+\newcommand{\EfieldStepJunction}
+{
+\begin{equation}
+\label{Eq:EFieldStepJunction}
+\mathcal{ E} =  \begin{cases}
+ - \dfrac{qN_A^ - }{\varepsilon _s \varepsilon _0} \left( x + x_p \right) & { - x_p \le x \le 0}\\
+\dfrac{qN_D^ +}{\varepsilon _s \varepsilon _0} \left( x_n - x \right)&0 \le x \le x_n\\
+0 & \mbox{otherwise}
+\end{cases} 
+\end{equation}
+}
+\newcommand{\EmaxStepJunction}
+{
+\begin{equation}
+\label{Eq:EmaxStepJunction}
+\vert \mathcal{E}_{max} \vert=\frac{qN_Ax_p}{\varepsilon_s\varepsilon_0}=\frac{qN_Dx_n}{\varepsilon_s\varepsilon_0}
+\end{equation}
+}
+\newcommand{\PotentialStepJunction}
+{
+\begin{equation}
+\label{Eq:PoissonStepJunction}
+V=\begin{cases}
+\dfrac{qN_A}{2\varepsilon_s \varepsilon_0} \left(x+x_p \right)^2 & -x_p \le x \le 0 \\
+\phi_{bi}-\dfrac{qN_D}{2\varepsilon_s \varepsilon_0}\left(x_n-x\right)^2 & 0 \le x \le x_n\\
+\end{cases} 
+\end{equation}
+}
+\newcommand{\BuiltinPotential}
+{
+\begin{equation}
+\label{Eq:BuiltinPotential}
+\phi_{bi} = \frac{kT}{q} \ln \left( \frac{N_A N_D}{n_i^2} \right)
+\end{equation}
+}
+\newcommand{\WStepJunction}
+{
+\begin{equation}
+\label{Eq:WStepJunction}
+W=\sqrt{ \frac{2 \varepsilon_s \varepsilon_0}{q} \left( \frac{1}{N_A}+\frac{1}{N_D} \right) \left( \phi_{bi}- V_a \right)
+}
+\end{equation}
+}
+\newcommand{\xpandxn}
+{
+\begin{subequations}
+\begin{equation}
+\label{Eq:xpBig}
+x_p=\sqrt{\frac{2\varepsilon_s\varepsilon_0}{q}\left[ \frac{N_D}{N_A\left(N_A+N_D\right)}\right]\phi_{bi}}
+\end{equation}
+\begin{equation}
+\label{Eq:xpRatio}
+x_p = W\frac{N_D}{N_A + N_D} 
+\end{equation}
+\begin{equation}
+\label{Eq:xnBig}
+x_n=\sqrt{\frac{2\varepsilon_s\varepsilon_0}{q}\left[ \frac{N_A}{N_D\left(N_A+N_D\right)}\right]\phi_{bi}}
+\end{equation}
+\begin{equation}
+\label{Eq:xnRatio}
+x_n = W\frac{N_A}{N_A + N_D} 
+\end{equation}
+\end{subequations}
+}
+% % % % % % I made a change to the nomenclature for the excess carrier 
+% % % %% % % %concentration equation for the p-side to read "x+xp" per the 
+% % % % % % % S M Sze nomenclature. The equation should refer to x_p as negative
+% % % % % % % %and hence since x is negative is a decaying exponential.
+\newcommand{\ExcessCarriers}
+{
+\begin{subequations}
+\begin{equation}
+\label{Eq:excesselectron}
+n^{\prime}(x) = n_{p0}  \left(e^{qV_a/kT} - 1\right) e^{  \left(  x_p + x \right)/L_n},\mbox{           }x < - x_p
+\end{equation}
+\begin{equation}
+\label{Eq:Eqexcesshole}
+p^{\prime}(x) = p_{n0} \left(e^{qV_a/kT} - 1\right) e^{ - \left( x - x_n \right) /L_p},\mbox{           }x > x_n
+\end{equation}
+\end{subequations}
+}
+\newcommand{\StoredCharge}
+{
+	\begin{subequations}
+	\begin{equation}
+	\label{Eq:ElecStoredCharge}
+	{Q_n}^{\prime}=-q\int_{-\infty}^{-x_p}{n^{\prime}\left(x^{\prime}\right)dx^{\prime}}
+	\end{equation}
+	\begin{equation}
+	\label{Eq:HoleStoredCharge}
+	{Q_p}^{\prime}=q\int_{x_n}^{\infty}{p^{\prime}\left(x^{\prime}\right)dx^{\prime}}
+	\end{equation}	
+	\end{subequations}
+}
+\newcommand{\IdealDiode}
+{
+\begin{subequations}
+\begin{equation}
+\label{Eq:Izero}
+I_0=qA\left(\frac{n_i^2}{N_A}\left(\frac{D_n}{L_n}\right)+\frac{n_i^2}{N_D}\left(\frac{D_p}{L_p}\right)\right)
+\end{equation}
+\begin{equation}
+\label{Eq:idealdiode}
+I_d=I_0\left( \exp{\left(\frac{qV_a}{kT}\right)}-1\right)
+\end{equation}
+\end{subequations}
+}
+\newcommand{\IGR}
+{
+\begin{equation}
+\label{Eq:IGR}
+I_{R - G} = \frac{q n_i W}{\tau_{dep}} \left(  \exp{\left(\frac{qV_a}{2kT}\right)} -1 \right)
+\end{equation}
+}
+\newcommand{\DiodeConductance}
+{
+\begin{subequations}
+\begin{equation}
+\label{Eq:DiodeConductance}
+g_d = \frac{\partial I_d}{\partial V_a}=\frac{q}{kT} I_0 \exp{ \frac{qV_a}{kT}}
+\end{equation}
+\begin{equation}
+\label{Eq:DiodeConductance}
+r_d =\frac{1}{g_d}=\left[ \frac{q}{kT} I_0 \exp{ \frac{qV_a}{kT}}\right]^{-1}
+\end{equation}
+\end{subequations}
+}
+\newcommand{\JunctionCapacitance}
+{
+\begin{equation}
+\label{Eq:JunctionCapacitance}
+C_{Depletion}=C_{junction}=\frac{\varepsilon_s \varepsilon_0 A}{W}
+\end{equation}
+}
+\newcommand{\DiffusionCapacitance}
+{
+\begin{equation}
+\label{Eq:DiffusionCapacitance}
+C_{Diffusion}=\left( \tau_n I_{n0}+\tau_p I_{p0} \right) \frac{q}{kT} \exp{\frac{qV_a}{kT}}=qA\frac{q}{kT} \left(\tau_n\frac{D_n}{L_n}n_{p0}+\tau_p\frac{D_p}{L_p}p_{n0}\right)\exp{\frac{qV_a}{kT}}
+\end{equation}
+}
+\newcommand{\SemiconductorWorkFunction}
+{
+\begin{equation}
+\label{Eq:PhiS}
+\Phi _s= \left(\chi+ \left.\left(E_c-E_{f_s}\right)\right|_{Flatband}  \right)%{\chi  + \left. (E_c - E_{f_s}} \right|_{Flat Band}}}
+\end{equation}
+}
+\newcommand{\MetalSemiconductorWorkFunction}
+{
+\begin{equation}
+\label{Eq:MetalSemicondcutorWorkFucntion}
+\phi_{ms}\mbox{ (general)}=\Phi_m-\left( \chi+\frac{E_g}{2}+\phi_B \right)
+\end{equation}
+}
+\newcommand{\Cinsulator}
+{
+\begin{equation}
+\label{Eq:Cinsulator}
+C_{insulator}=\frac{\varepsilon_{insulator}\varepsilon_0}{t_{insulator}}
+\end{equation}
+}
+\newcommand{\BulkFermi}
+{
+\begin{equation}
+\label{Eq:BulkFermi}
+\phi_B=
+\begin{cases}
++\dfrac{kT}{q}\ln\dfrac{N_A}{n_i}&\mbox{p-type substrate}\\
+-\dfrac{kT}{q}\ln\dfrac{N_D}{n_i}&\mbox{n-type substrate}\\
+\end{cases}
+\end{equation}
+}
+\newcommand{\Wm}
+{
+\begin{equation}
+\label{Eq:Wm}
+W_m=\begin{cases}
+\sqrt{\dfrac{2\varepsilon_s \varepsilon_0 \vert 2 \phi_B \vert}{qN_A}} &\mbox{p-type substrate}\\
+\sqrt{\dfrac{2\varepsilon_s \varepsilon_0 \vert 2 \phi_B \vert}{qN_D}} &\mbox{n-type substrate}\\
+\end{cases}
+\end{equation}
+}
+\newcommand{\Qd}
+{
+\begin{equation}
+\label{Eq:Qd}
+Q_d=\begin{cases}
+-qN_AW_m&\mbox{p-type substrate}\\
++qN_DW_m&\mbox{n-type substrate}\\
+\end{cases}
+\end{equation}
+}
+\newcommand{\Vtideal}
+{
+\begin{equation}
+\label{Eq:Vtideal}
+V_{tideal}=-\frac{Q_s}{C_{insulator}}+2\phi_B
+\end{equation}
+}
+\newcommand{\WorkFuncNPlusPoly}
+{
+\begin{equation}
+\label{Eq:WorkFuncNPlusPoly}
+\phi_{ms}\mbox{ (N+ Polysilicon)}\approx -\frac{E_g}{2}-\phi_B=-0.56\mbox{ eV}-\phi_B
+\end{equation}
+}
+\newcommand{\WorkFuncPPlusPoly}
+{
+\begin{equation}
+\label{Eq:WorkFuncPPlusPoly}
+\phi_{ms}\mbox{ (P+ Polysilicon)}\approx \frac{E_g}{2}-\phi_B=0.56\mbox{ eV}-\phi_B
+\end{equation}
+}
+\newcommand{\Qox}
+{
+\begin{equation}
+\label{Eq:Qox}
+Q_{ox}=qD_{ox}
+\end{equation}
+}
+\newcommand{\Vfb}
+{
+\begin{equation}
+\label{Eq:Vfb}
+V_{fb}=\phi_{ms}-\frac{Q_{ox}}{C_{insulator}}
+\end{equation}
+}
+\newcommand{\Vt}
+{
+\begin{equation}
+\label{Eq:Vt}
+V_t=V_{tideal}+V_{fb}=-\frac{Q_s}{C_{insulator}}+2\phi_B+\phi_{ms}-\frac{Q_{ox}}{C_{insulator}}
+\end{equation}
+}
+\newcommand{\BodyEffect}
+{
+\begin{equation}
+\label{Eq:BodyEffect}
+m=1+\frac{\sqrt{\dfrac{\varepsilon_s\varepsilon_0qN_A}{4\phi_B}}}{C_{inslator}}=1+\frac{C_{dm}}{C_{insulator}}=1+\frac{3t_{insulator}}{W_m}
+\end{equation}
+}
+\newcommand{\Vdsat}
+{
+\begin{subequations}
+\begin{equation}
+\label{Eq:Vdsat}
+V_{DS_{sat}}=\frac{V_{GS}-V_t}{m}
+\end{equation}
+\begin{equation}
+\label{Eq:VdsatCases}
+\mbox{If }V_{DS_{sat}} \begin{cases}
+<\dfrac{V_{GS}-V_t}{m}&\mbox{ Linear}\\
+=\dfrac{V_{GS}-V_t}{m}&\mbox{ Pinchoff}\\
+>\dfrac{V_{GS}-V_t}{m}&\mbox{ Saturation}\\
+\end{cases}
+\end{equation}
+\end{subequations}
+}
+\newcommand{\Ids}
+{
+\begin{subequations}
+\begin{equation}
+\label{Eq:IdsLinear}
+I_{DS}\mbox{ (Linear)}=\overline{\mu}_n\frac{Z}{L}C_{insulator}\left[\left(V_{GS}-V_t\right)V_{DS}-\frac{m}{2}{V_{DS}}^2\right]
+\end{equation}
+\begin{equation}
+\label{Eq:IdsSaturation}
+I_{DS}\mbox{ (Saturation)}=\overline{\mu}_n\frac{Z}{L}C_{insulator}\frac{\left( V_{GS}-V_t\right)^2}{2m}
+\end{equation}
+\end{subequations}
+}
+\newcommand{\gm}
+{
+\begin{equation}
+\label{Eq:gm}
+g_m=\frac{\partial I_{DS}}{V_{GS}}\Big|_{\mbox{Constant $V_{DS}$}}
+\end{equation}
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Tables %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\SemiconductorConstants}
+{
+\begin{table}[hc]
+\begin{center}
+\caption{Constants of key semiconductor materials. Please note that these values are for undoped materials.}
+\label{Table:SemiconductorConstants}
+\begin{tabular}{l p{2.75cm}|l p{2.75cm} lp{2.75cm} l p{2.75cm} l p{2.75cm} l p{2.75cm} l}
+\hline
+Material &E$_{g}$ (eV)& $\mu_{n}$ ($cm^2\backslash V-s$)  &  $\mu_{p}$ (cm$^2\backslash V\cdot s$)& $\epsilon_{s}$ & Lattice Constant (\angstrom)  \\
+\hline
+\textbf{Si}& 1.11 & 1400 &  480& 11.8 & 5.43  \\
+\textbf{Ge}& 0.67 & 3900 & 1900 &16  & 5.65 \\
+\textbf{GaAs}&1.44& 8500 & 400 & 12.9 & 5.65 \\
+\textbf{InAs}& 0.37 & 30000 & 500 & 15.15 & 6.1  \\
+\textbf{InP}& 1.35  & 4000 & 100  &12.4  & 5.87\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+}
+\newcommand{\InsulatorConstants}
+{
+\begin{table}[hc]
+\caption{Constants of key insulators.}
+\label{Table:InsulatorConstants}
+%\begin{tabular}{llllll}
+ \begin{tabular}{| p{2.5cm} || p{2.5cm}| p{2.5cm} | p{2.5cm} | p{2.5cm} |}\hline
+\textbf{Material} &E$_{g}$ (eV )& Dielectric Constant ($\epsilon_{insulator}$) & Electron Affinity $\chi$ (eV) & Conduction Band Offset from Si (eV)  \\ \hline
+ \textbf{Si$_{3}$N$_{4}$}& 5.3 & 7.5&  2.1 & 2.4  \\
+ \textbf{Al$_{2}$O$_{3}$}& 8.8& 9-10.1&  1 & 2.8  \\
+ \textbf{HfO$_{2}$}& 6& 20-25&  2.5 & 1.5  \\
+\hline
+
+ 
+\end{tabular}
+
+\end{table}
+}
+\newcommand{\MetalWorkFunctions}
+{
+\begin{table}[hc]
+\caption{Metal Workfunctions}
+\label{Table:MetalWorkfunctions}
+%\begin{tabular}{lll}
+\begin{center}
+ \begin{tabular}{| p{2.5cm} || p{2.5cm}|}\hline
+
+\textbf{Material} &$\Phi_{m}$ (eV )  \\ \hline
+ \textbf{Mg} & 3.7 \\
+ \textbf{Al} & 4.3 \\
+ \textbf{Ti} & 4.3 \\
+ \textbf{Cr} & 4.6 \\
+ \textbf{W} & 4.6 \\
+ \textbf{Ag} & 4.64 \\
+ \textbf{Pd} & 5.1 \\
+ \textbf{Ni} & 5.15 \\
+ \textbf{Pt} & 5.7 \\
+\hline
+
+\end{tabular}
+\end{center}
+\end{table}
+}
+\newcommand{\ElectronAffinity}
+{
+\begin{table}[!rh]
+\caption{Electron affinity ($\chi$) of various semiconductors.}
+\label{Table:Affinity}
+%\begin{tabular}{lll}
+\begin{center}
+ \begin{tabular}{| p{3cm} || p{3cm}|}\hline
+
+\textbf{Material} & Electron affinity $\chi$ (eV )  \\ \hline
+ \textbf{Si} & 4 \\
+ \textbf{Ge} & 4.03 \\
+ \textbf{GaAs} & 4.07 \\
+ \textbf{In$_{0.53}$Ga$_{0.47}$As} & 4.5 \\
+ \textbf{InAs} & 4.9 \\
+ \textbf{InP} & 4.38 \\
+ \textbf{GaSb} & 4.06 \\
+ \textbf{GaN} & 4.1 \\
+\hline
+
+\end{tabular}
+\end{center}
+\end{table}
+}
