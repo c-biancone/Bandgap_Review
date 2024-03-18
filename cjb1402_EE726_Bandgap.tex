@@ -468,7 +468,11 @@
     pdfpagemode=FullScreen,
 }
 \usepackage[nameinlink,capitalize]{cleveref}
-
+\newcommand*{\doi}{}
+\makeatletter
+\newcommand{\doi@}[1]{\href{https://doi.org/#1}{#1}}
+\DeclareRobustCommand{\doi}{\hyper@normalise\doi@}
+\makeatother
 
 
 % *** Do not adjust lengths that control margins, column widths, etc. ***

@@ -149,6 +149,11 @@
     pdfpagemode=FullScreen,
 }
 \usepackage[nameinlink,capitalize]{cleveref}
+\newcommand*{\doi}{}
+\makeatletter
+\newcommand{\doi@}[1]{\href{https://doi.org/#1}{#1}}
+\DeclareRobustCommand{\doi}{\hyper@normalise\doi@}
+\makeatother
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
@@ -156,8 +161,8 @@
 \usefonttheme{serif}
 
 \title[Banba Bandgap]{\bfseries Review of Sub-1-V Bandgap Reference}
-\author[C. Biancone]{Chris Biancone}
-\date[]\today{}
+\author[C. Biancone]{\bfseries Chris Biancone}
+\date[]{03/05/2024}
 \institute[RIT]{EE726 Mixed-Signal IC Design \\ Electrical and Microelectronic Engineering \\ Rochester Institute of Technology}
 
 \begin{document}
@@ -288,7 +293,7 @@
         \column{0.45\textwidth}
         \begin{itemize}
             \item Many designs like those of Widlar, Kuijk, and Brokaw enhance the performance with additional error amplification and series regulation
-            \item With \(E_{G_{Si}} = \qty{1.12}{\eV}\), standard bandgap topologies have a lower limit around \qty{1.25}{\V}, dependent on the threshold voltage of the devices used for its construction
+            \item With \(E_{G_{Si}} = \qty{1.12}{\eV}\), standard bandgap topologies have a lower limit around \qty{1.25}{\V}, dependent on the threshold voltage of the devices used for its construction~\cite{Razavi2016}
         \end{itemize}
         \vspace*{-4pt}
         \small
@@ -522,6 +527,7 @@
         \begin{itemize}
             \item Papers have collectively been cited over 800 times
             \item Obvious impact on the industry despite poor hardware results
+            \item No real follow-up work from the authors
             \item PSRR was not reported
             \item In reporting distributions, the conventional design had 34 data points, whereas the new design only had 23
             \item Process parameters for the BJT devices may also have been useful
@@ -599,8 +605,8 @@
     
         \column{0.55\textwidth}
         \begin{figure}
-            \includegraphics[width=\columnwidth]{bg_prop.eps}
-            \caption{Schematic of the new bandgap as simulated in C\=adence Virtuoso.}\label{fig:gpdk_prop}
+            \includegraphics[width=\columnwidth]{bg_prop_bw.eps}
+            \caption{Schematic of the new bandgap as simulated in C\=adence Virtuoso. Device sizing as suggested by Razavi, scaled for \(l = \qty{45}{\nm}\)~\cite{Razavi2021}.}\label{fig:gpdk_prop}
         \end{figure}
     \end{columns}
 \end{frame}
@@ -644,12 +650,21 @@
     \end{columns}
 \end{frame}
 
+\begin{frame}{It Works!}{}
+    \begin{figure}[!t]
+        \centering
+        \includegraphics[height=0.7\textheight]{bandgap_temp.eps}
+        \caption{Simulated results over 0, 27, and \qty{100}{\degree\C}, transient and DC.}\label{fig:gpdk_results_temp}
+    \end{figure}
+\end{frame}
+
 \begin{frame}[allowframebreaks]
+    \setbeamertemplate{bibliography item}[text]
     \frametitle{References}
-    \small
+    \footnotesize
     \bibliographystyle{IEEEtranDOI}
     \bibliography{main.bib}
-    \small
+    \footnotesize
 \end{frame}
 
 \end{document}

@@ -92,6 +92,10 @@ FUNCTION {default.is.use.paper} { #1 }
 % #1 enables
 FUNCTION {default.is.use.url} { #1 }
 
+%
+%
+FUNCTION {default.is.use.doi} { #1 }
+
 
 % #0 turns off the forced use of "et al."
 % #1 enables
@@ -144,6 +148,9 @@ FUNCTION {default.name.latex.cmd}{ "" }
 
 % The default URL prefix.
 FUNCTION {default.name.url.prefix}{ "[Online]. Available:" }
+
+% cjb doi prefix 
+FUNCTION {default.name.doi.prefix}{ "doi:" }
 
 % The default URLDATE prefix
 FUNCTION {default.name.urldate.prefix}{ "Accessed" }
@@ -304,6 +311,7 @@ ENTRY
     CTLuse_article_number
     CTLuse_paper
     CTLuse_url
+    CTLuse_doi
     CTLuse_forced_etal
     CTLmax_names_forced_etal
     CTLnames_show_etal
@@ -313,6 +321,7 @@ ENTRY
     CTLname_format_string
     CTLname_latex_cmd
     CTLname_url_prefix
+    CTLname_doi_prefix
 	CTLname_urldate_prefix
   }
   {}
@@ -341,6 +350,7 @@ INTEGERS { longest.label.width multiresult nameptr namesleft number.label numnam
 INTEGERS { is.use.number.for.article
            is.use.paper
            is.use.url
+           is.use.doi % cjb
            is.forced.et.al
            max.num.names.before.forced.et.al
            num.names.shown.with.forced.et.al
@@ -361,6 +371,7 @@ STRINGS { bibinfo
           name.format.string
           name.latex.cmd
           name.url.prefix
+          name.doi.prefix
 		  name.urldate.prefix}
 
 
@@ -374,6 +385,7 @@ FUNCTION {initialize.controls}
 { default.is.use.number.for.article 'is.use.number.for.article :=
   default.is.use.paper 'is.use.paper :=
   default.is.use.url 'is.use.url :=
+  default.is.use.doi 'is.use.doi :=
   default.is.forced.et.al 'is.forced.et.al :=
   default.max.num.names.before.forced.et.al 'max.num.names.before.forced.et.al :=
   default.num.names.shown.with.forced.et.al 'num.names.shown.with.forced.et.al :=
@@ -383,6 +395,7 @@ FUNCTION {initialize.controls}
   default.name.format.string 'name.format.string :=
   default.name.latex.cmd 'name.latex.cmd :=
   default.name.url.prefix 'name.url.prefix :=
+  default.name.doi.prefix 'name.doi.prefix :=
   default.name.urldate.prefix 'name.urldate.prefix :=
 }
 
@@ -1922,9 +1935,11 @@ cap.status.std
 %% URL
 
 FUNCTION {format.url}
-{ url empty$
-    { "" }
+{ is.use.url
+  { is.use.doi
     { doi empty$
+      { url empty$
+        { "" }
         { this.to.prev.status
           this.status.std
           cap.yes 'status.cap :=
@@ -1936,20 +1951,16 @@ FUNCTION {format.url}
           space.normal 'prev.status.space :=
           quote.no 'this.status.quote :=
         }
-        { this.to.prev.status
-          this.status.std
-          cap.yes 'status.cap :=
-          name.url.prefix " " *
-          "\url{https://doi.org/" * doi * "}" *
-          punct.no 'this.status.punct :=
-          punct.period 'prev.status.punct :=
-          space.normal 'this.status.space :=
-          space.normal 'prev.status.space :=
-          quote.no 'this.status.quote :=
-        } % Don't output URL if DOI is available
       if$
     }
+    { "" }
+    if$
+    }
+    { "" }
   if$
+  }
+  { "" }
+if$
 }
 
 %% URLDATE
@@ -2017,12 +2028,14 @@ FUNCTION {format.issn}
 %% added by GQMJr
 
 FUNCTION {format.doi}
-{ doi empty$
+{ is.use.doi
+  { doi empty$
     { "" }
     { this.to.prev.status
       this.status.std
       cap.yes 'status.cap :=
-      "doi: \href{" doi * "}{doi:" doi * "}" *
+      name.doi.prefix " " *
+      "\doi{" * doi * "}" *
       punct.no 'this.status.punct :=
       punct.period 'prev.status.punct :=
       space.normal 'this.status.space :=
@@ -2030,6 +2043,9 @@ FUNCTION {format.doi}
       quote.no 'this.status.quote :=
     }
   if$
+  }
+  { "" }
+if$
 }
 
 
@@ -2055,6 +2071,7 @@ FUNCTION {article}
   format.pages output
   format.date "year" output.warn
   format.note output
+  format.doi "doi" output.warn
   format.url output
   format.urldate output
   fin.entry
@@ -2192,7 +2209,7 @@ FUNCTION {inproceedings}
     }
   if$
   format.paper output
-  % format.doi output		%% GQMJr
+  format.doi output		%% GQMJr
   format.isbn output		%% GQMJr
   format.issn output		%% GQMJr
   format.pages output
@@ -2370,6 +2387,7 @@ FUNCTION {techreport}
   format.tech.report.number output.nonnull
   format.date "year" output.warn
   format.note output
+  format.doi output
   format.url output
   format.urldate output
   fin.entry
@@ -2415,6 +2433,14 @@ FUNCTION {IEEEtranBSTCTL}
     { CTLuse_paper
       yes.no.to.int
       'is.use.paper :=
+    }
+  if$
+  CTLuse_doi
+  empty$
+    { skip$ }
+    { CTLuse_doi
+      yes.no.to.int
+      'is.use.doi :=
     }
   if$
   CTLuse_url
@@ -2496,6 +2522,13 @@ FUNCTION {IEEEtranBSTCTL}
       'name.url.prefix :=
     }
   if$
+  CTLname_doi_prefix
+  missing$
+    { skip$ }
+    { CTLname_doi_prefix
+      'name.doi.prefix :=
+    }
+  if$
 %  TODO figure out a way to add in this control without exceeding the function length limit
 %  CTLname_urldate_prefix
 %  missing$
@@ -2524,6 +2557,7 @@ FUNCTION {internet}{electronic}
 FUNCTION {webpage}{electronic}
 FUNCTION {www}{electronic}
 FUNCTION {default.type}{misc}
+FUNCTION {report}{techreport}
 
 
 
